@@ -88,21 +88,6 @@
       prog.textContent = `Pergunta ${i+1} de ${QUIZ.length}`;
     };
 
-  // ======= Evitar zoom por gesto/double-tap (fallback) =======
-  const preventMobileZoom = () => {
-    // Bloqueia gesto de pinça no iOS Safari
-    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
-    // Bloqueia double-tap zoom
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', (e) => {
-      const now = Date.now();
-      if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, { passive: false });
-  };
-
     const finish = () => {
       qEl.textContent = `Você acertou ${score}/${QUIZ.length} ❤`;
       optsEl.innerHTML = '';
@@ -128,6 +113,21 @@
     const click = $('#clickSound');
     if (!click) return;
     try { click.currentTime = 0; click.play(); } catch {}
+  };
+
+  // ======= Evitar zoom por gesto/double-tap (fallback) =======
+  const preventMobileZoom = () => {
+    // Bloqueia gesto de pinça no iOS Safari
+    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
+    // Bloqueia double-tap zoom
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
   };
 
   // Confete mais suave e lento
