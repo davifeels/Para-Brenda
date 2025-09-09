@@ -130,6 +130,9 @@ body {
   cursor: pointer;
   box-shadow: 0 8px 16px var(--shadow);
   transition: transform .15s ease, box-shadow .15s ease, filter .2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
 .btn:active { transform: translateY(1px) scale(.98); }
@@ -225,15 +228,49 @@ body {
 
 /* Heart Wall */
 .heart-form { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; }
-.heart-form input { width: min(90%, 520px); padding: .7rem .9rem; border-radius: 999px; border: 2px solid #ffd1e2; outline: none; }
-.heart-stage { position: relative; min-height: 160px; background: rgba(255,255,255,.08); border-radius: 16px; margin-top: 1rem; box-shadow: 0 6px 16px var(--shadow); overflow: hidden; color: #fce9f5; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.16); }
+.heart-form input {
+  width: min(90%, 520px);
+  padding: .7rem .9rem;
+  border-radius: 999px;
+  outline: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+  color: #ffe6f3;
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(8px);
+}
+.heart-stage {
+  position: relative;
+  min-height: 0;
+  background: transparent;
+  border-radius: 16px;
+  margin-top: 1rem;
+  box-shadow: none;
+  overflow: visible;
+  color: #fce9f5;
+  backdrop-filter: none;
+  border: 0;
+}
 .heart-note { position: absolute; padding: .45rem .7rem; background: #ffeff5; border: 1px solid #ffd1e2; border-radius: 999px; white-space: nowrap; box-shadow: 0 6px 16px var(--shadow); animation: rise 6s linear forwards; }
 @keyframes rise { from { transform: translateY(40px); opacity: 0;} 10%{ opacity: 1;} to { transform: translateY(-180px); opacity: 0;} }
 
 /* Mini-game */
 .game-board { display: grid; grid-template-columns: repeat(5, 56px); gap: .6rem; justify-content: center; margin: 1rem auto; }
-.game-heart { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-size: 1.4rem; cursor: pointer; background: linear-gradient(135deg, #ff9dc0, #e0a6ff); box-shadow: 0 6px 14px var(--shadow); transition: transform .15s ease; }
+.game-heart {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff9dc0, #e0a6ff);
+  box-shadow: 0 6px 14px var(--shadow);
+  transition: transform .12s ease, box-shadow .12s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
 .game-heart:hover { transform: scale(1.06); }
+.game-heart:active { transform: scale(.96); box-shadow: 0 4px 10px var(--shadow); }
 .game-output { text-align: center; font-weight: 700; min-height: 28px; }
 
 /* Secret section */
@@ -300,8 +337,23 @@ body {
 .quiz-card { max-width: 760px; margin: 0 auto; padding: 1rem; border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); box-shadow: 0 10px 26px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.14); }
 .quiz-question { font-weight: 900; letter-spacing: .3px; margin-bottom: .8rem; color: #ffe6f3; text-align: center; }
 .quiz-options { display: grid; gap: .6rem; }
-.quiz-option { background: #1b1b1b; color: #ffe6f3; border: 2px solid transparent; padding: .8rem 1rem; border-radius: 12px; cursor: pointer; text-align: left; font-weight: 700; transition: transform .12s ease, border-color .12s ease, background .12s ease; }
+.quiz-option {
+  background: #1b1b1b;
+  color: #ffe6f3;
+  border: 2px solid transparent;
+  padding: 1rem 1.1rem;
+  min-height: 52px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 700;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
 .quiz-option:hover { transform: translateY(-1px); border-color: #ffd1e2; }
+.quiz-option:active { transform: translateY(1px) scale(.98); }
 .quiz-option.selected { border-color: #ff9ad5; background: #222; }
 .quiz-actions { display: flex; justify-content: center; margin-top: .8rem; }
 .quiz-progress { margin-top: .6rem; text-align: center; font-weight: 700; opacity: .9; }

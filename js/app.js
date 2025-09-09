@@ -77,12 +77,21 @@
         const b = document.createElement('button');
         b.className = 'quiz-option';
         b.textContent = txt;
-        b.addEventListener('click', () => {
+        const onChoose = () => {
           playClick();
           selected = idx;
           Array.from(optsEl.children).forEach(c => c.classList.remove('selected'));
           b.classList.add('selected');
-        });
+          // Avança automaticamente após pequena confirmação visual
+          setTimeout(() => {
+            if (selected === -1) return;
+            if (selected === QUIZ[i].c) score++;
+            i++;
+            if (i >= QUIZ.length) finish(); else render();
+          }, 120);
+        };
+        b.addEventListener('pointerup', onChoose);
+        b.addEventListener('click', onChoose);
         optsEl.appendChild(b);
       });
       prog.textContent = `Pergunta ${i+1} de ${QUIZ.length}`;
@@ -123,7 +132,9 @@
     let lastTouchEnd = 0;
     document.addEventListener('touchend', (e) => {
       const now = Date.now();
-      if (now - lastTouchEnd <= 300) {
+      // Evita cancelar interação em controles de UI
+      const isControl = !!(e.target && (/** @type {Element} */(e.target)).closest && (/** @type {Element} */(e.target)).closest('button, a, input, textarea, select, label'));
+      if (!isControl && now - lastTouchEnd <= 300) {
         e.preventDefault();
       }
       lastTouchEnd = now;
@@ -698,7 +709,7 @@
         cell.className = 'game-heart';
         cell.setAttribute('aria-label', 'Coração');
         cell.textContent = '💖';
-        cell.addEventListener('click', () => {
+        const onTap = () => {
           playClick();
           if (i === correct) {
             out.textContent = 'Mensagem secreta: Você é meu para sempre, Brenda! ❤';
@@ -706,7 +717,9 @@
           } else {
             out.textContent = 'Quase! Tente outro coração.';
           }
-        });
+        };
+        cell.addEventListener('pointerup', onTap);
+        cell.addEventListener('click', onTap);
         board.appendChild(cell);
       }
     };
