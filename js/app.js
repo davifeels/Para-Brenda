@@ -88,6 +88,21 @@
       prog.textContent = `Pergunta ${i+1} de ${QUIZ.length}`;
     };
 
+  // ======= Evitar zoom por gesto/double-tap (fallback) =======
+  const preventMobileZoom = () => {
+    // Bloqueia gesto de pinça no iOS Safari
+    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
+    // Bloqueia double-tap zoom
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
+  };
+
     const finish = () => {
       qEl.textContent = `Você acertou ${score}/${QUIZ.length} ❤`;
       optsEl.innerHTML = '';
@@ -117,16 +132,20 @@
 
   // Confete mais suave e lento
   const popConfettiSlow = (root, count = 160) => {
-    for (let i = 0; i < count; i++) {
+    const isSmall = window.innerWidth < 480;
+    const N = isSmall ? Math.max(60, Math.floor(count * 0.5)) : count;
+    for (let i = 0; i < N; i++) {
       const c = document.createElement('i');
       c.style.position = 'fixed';
       c.style.left = Math.random() * 100 + 'vw';
       c.style.top = '-28px';
-      c.style.width = (Math.random()*6 + 6) + 'px';
-      c.style.height = (Math.random()*10 + 10) + 'px';
+      const w = (Math.random()*(isSmall?4:6) + (isSmall?4:6));
+      const h = (Math.random()*(isSmall?8:10) + (isSmall?8:10));
+      c.style.width = w + 'px';
+      c.style.height = h + 'px';
       c.style.background = `hsl(${Math.random()*360},85%,68%)`;
       c.style.transform = `rotate(${Math.random()*360}deg)`;
-      const dur = 5 + Math.random()*3; // 5-8s mais lento
+      const dur = (isSmall ? 4.5 : 5) + Math.random()* (isSmall ? 2.5 : 3); // levemente mais curto no mobile
       c.style.animation = `confFallSlow ${dur}s linear forwards`;
       c.style.zIndex = '60';
       c.style.borderRadius = '2px';
@@ -707,6 +726,7 @@
   const init = () => {
     setYear();
     setStartDateLabel();
+    preventMobileZoom();
     initParticles();
     initCounter();
     initTypewriter();

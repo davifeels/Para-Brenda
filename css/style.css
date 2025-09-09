@@ -17,6 +17,9 @@
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
+/* Evita zoom por duplo toque em navegadores que respeitam touch-action */
+html, body { touch-action: manipulation; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -253,19 +256,35 @@ body {
 #backToTop:hover { filter: brightness(1.05); transform: translateY(-1px); }
 
 /* PIN Overlay */
-.pin-overlay { position: fixed; inset: 0; z-index: 100; }
-.pin-overlay .modal-backdrop { background: rgba(0,0,0,.82); backdrop-filter: blur(10px); }
-.pin-card { position: relative; z-index: 101; max-width: 420px; margin: 20vh auto; background: #111; color: #f5e8f7; border-radius: 16px; padding: 1.2rem 1.2rem 1rem; box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(255,105,180,.18) inset; text-align: center; }
+.pin-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); min-height: 100dvh; min-height: 100svh; }
+.pin-overlay .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.82); backdrop-filter: blur(10px); }
+.pin-card { position: relative; z-index: 101; width: 100%; max-width: 420px; background: #111; color: #f5e8f7; border-radius: 16px; padding: 1.2rem 1.2rem 1rem; box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(255,105,180,.18) inset; text-align: center; }
 .pin-card h3 { margin-top: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-weight: 900; font-size: 1.2rem; letter-spacing: .3px; color: #ffe6f3; text-shadow: 0 0 6px rgba(255,105,180,.35); }
 .pin-card p { color: #ffe6f3; opacity: .96; font-weight: 700; }
 .pin-form { display: flex; gap: .6rem; justify-content: center; }
-.pin-form input { width: 160px; padding: .7rem .9rem; border-radius: 999px; border: 2px solid #ff9ad5; background: #0d0d0d; color: #ffe6f3; outline: none; text-align: center; letter-spacing: 2px; font-weight: 800; }
+.pin-form input { width: 160px; padding: .7rem .9rem; border-radius: 999px; border: 2px solid #ff9ad5; background: #0d0d0d; color: #ffe6f3; outline: none; text-align: center; letter-spacing: 2px; font-weight: 800; font-size: 16px; line-height: 1.2; }
 .pin-msg { margin-top: .6rem; min-height: 22px; color: #ff9ad5; font-weight: 700; }
 
 /* Responsive tweaks */
 @media (max-width: 520px) {
   .metric { font-size: 2rem; }
   .game-board { grid-template-columns: repeat(4, 56px); }
+}
+
+/* Mobile fine‑tuning for PIN (iPhone/Android, qualquer navegador) */
+@media (max-width: 420px) {
+  .pin-card { border-radius: 14px; padding: 1rem; }
+  .pin-card h3 { font-size: 1.1rem; }
+  .pin-card p { font-size: .95rem; }
+  .pin-form { gap: .5rem; }
+  .pin-form input { width: 140px; padding: .65rem .85rem; font-size: 16px; }
+  .pin-card .btn { padding: .65rem 1rem; font-size: .95rem; }
+}
+
+@media (max-width: 340px) {
+  .pin-card h3 { font-size: 1.02rem; }
+  .pin-form input { width: 132px; }
+  .pin-card .btn { padding: .6rem .9rem; font-size: .9rem; }
 }
 
 /* Love Letters (flip cards) */
