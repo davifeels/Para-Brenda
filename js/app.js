@@ -77,23 +77,16 @@
         const b = document.createElement('button');
         b.className = 'quiz-option';
         b.textContent = txt;
-        const onChoose = () => {
+        b.addEventListener('click', () => {
           playClick();
           selected = idx;
           Array.from(optsEl.children).forEach(c => c.classList.remove('selected'));
           b.classList.add('selected');
-          // Avança automaticamente após pequena confirmação visual
-          setTimeout(() => {
-            if (selected === -1) return;
-            if (selected === QUIZ[i].c) score++;
-            i++;
-            if (i >= QUIZ.length) finish(); else render();
-          }, 120);
-        };
-        b.addEventListener('pointerup', onChoose);
-        b.addEventListener('click', onChoose);
+          nextBtn.disabled = false; // Habilita o botão Próximo ao selecionar uma opção
+        });
         optsEl.appendChild(b);
       });
+      nextBtn.disabled = selected === -1;
       prog.textContent = `Pergunta ${i+1} de ${QUIZ.length}`;
     };
 
@@ -106,9 +99,13 @@
 
     nextBtn.addEventListener('click', () => {
       if (selected === -1) return;
-      if (selected === QUIZ[i].c) score++;
-      i++;
-      if (i >= QUIZ.length) finish(); else render();
+      playClick();
+      if (i < QUIZ.length - 1) {
+        i++;
+        render();
+      } else {
+        finish();
+      }
     });
 
     render();
