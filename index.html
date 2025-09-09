@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álbum Interativo • Brenda da Silva Lima</title>
+  <meta name="description" content="Álbum de namoro interativo para Brenda da Silva Lima: fotos, declarações, surpresas, mini-jogos e muito amor." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Alex+Brush&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <script>
+    // Remove o hash imediatamente ao carregar, antes do render, para evitar ancoragem automática
+    (function(){
+      try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e) {}
+      if (location.hash) {
+        try { history.replaceState(null, '', location.pathname); } catch(e) { location.hash = ''; }
+      }
+      // Garante posição no topo em refresh e quando voltar do cache do navegador
+      window.addEventListener('DOMContentLoaded', function(){ window.scrollTo(0,0); });
+      window.addEventListener('pageshow', function(e){ if (e.persisted) window.scrollTo(0,0); });
+    })();
+  </script>
+</head>
+<body>
+  <!-- Floating Particles Canvas -->
+  <canvas id="particles"></canvas>
+
+  <header class="hero" id="capa">
+    <div class="hero-inner">
+      <h1 class="hero-title">Brenda da Silva Lima</h1>
+      <p class="hero-sub">Nosso amor desde <span id="startDateLabel">16/XX/XXXX</span></p>
+      <p class="hero-quote" id="heroQuote"></p>
+      <div class="hero-photo-wrapper">
+        <img src="./assets/images/img.jpg" alt="Foto do casal" class="hero-photo" />
+      </div>
+      <div class="hero-hint">Clique na foto ❤</div>
+      <div class="scroll-indicator">▼ Role para explorar ▼</div>
+    </div>
+  </header>
+
+  <main>
+    
+
+    <!-- Declarações de Amor -->
+    <section class="section declarations" id="declaracoes">
+      <h2 class="title cursive">Declarações de Amor</h2>
+      <div class="typewriter" id="typewriter"></div>
+      <div class="controls">
+        <button class="btn" id="btnPrevMsg">Anterior</button>
+        <button class="btn" id="btnNextMsg">Próxima</button>
+        <button class="btn" id="btnShuffleMsg">Aleatória</button>
+      </div>
+    </section>
+
+    
+
+    <!-- Galeria -->
+    <section class="section gallery" id="galeria">
+      <h2 class="title cursive">Nossa Galeria</h2>
+      <div class="thumbs" id="thumbs">
+        <div class="thumb"><img src="./assets/images/img1.jpg" alt="Momentos 1" data-index="0"></div>
+        <div class="thumb"><img src="./assets/images/img2.jpg" alt="Momentos 2" data-index="1"></div>
+        <div class="thumb"><img src="./assets/images/img3.jpg" alt="Momentos 3" data-index="2"></div>
+        <div class="thumb"><img src="./assets/images/img4.jpg" alt="Momentos 4" data-index="3"></div>
+        <div class="thumb"><img src="./assets/images/img5.jpg" alt="Momentos 5" data-index="4"></div>
+        <div class="thumb"><img src="./assets/images/img6.jpg" alt="Momentos 6" data-index="5"></div>
+      </div>
+    </section>
+
+    <!-- Modal da Galeria -->
+    <div id="modal" class="modal hidden" aria-hidden="true" role="dialog" aria-label="Visualizador de fotos">
+      <div class="modal-content">
+        <button class="modal-close" id="modalClose" aria-label="Fechar">×</button>
+        <button class="modal-nav left" id="modalPrev" aria-label="Anterior">❮</button>
+        <img id="modalImg" alt="Foto ampliada" />
+        <div class="modal-caption" id="modalCaption"></div>
+        <button class="modal-nav right" id="modalNext" aria-label="Próxima">❯</button>
+      </div>
+      <div class="modal-backdrop" id="modalBackdrop"></div>
+    </div>
+
+    <!-- Surpresas -->
+    <section class="section surprises" id="surpresas">
+      <h2 class="title cursive">Surpresas Interativas</h2>
+      <div class="surprise-actions">
+        <button class="btn pulse" id="btnSurpresa">Surpresa!</button>
+        <button class="btn" id="btnCoracoes">Corações ❤</button>
+      </div>
+      <div class="surprise-output" id="surpriseOutput"></div>
+    </section>
+
+    <!-- Música (YouTube Embed) -->
+    <section class="section music" id="musica">
+      <h2 class="title cursive">Nossa Trilha Sonora</h2>
+      <div class="youtube-card">
+        <a class="youtube-thumb" href="https://www.youtube.com/watch?v=Z5pWz_OR5Sg&list=RDZ5pWz_OR5Sg&start_radio=1" target="_blank" rel="noopener" aria-label="Abrir no YouTube">
+          <img src="https://i.ytimg.com/vi/Z5pWz_OR5Sg/hqdefault.jpg" alt="Luan Santana — 10, 20, 30 Anos" />
+          <span class="play">▶</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Nossa História -->
+    <section class="section timeline" id="historia">
+      <h2 class="title cursive">Nossa História</h2>
+      <ul class="timeline-list" id="timeline">
+        <li class="timeline-item">
+          <button class="timeline-header">Primeiro encontro</button>
+          <div class="timeline-body">
+            <img src="./assets/images/img2.jpg" alt="Primeiro encontro" />
+            <p>O dia em que nossos olhares se encontraram e o mundo ficou mais bonito.</p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <button class="timeline-header">Primeiro beijo</button>
+          <div class="timeline-body">
+            <img src="./assets/images/img3.jpg" alt="Primeiro beijo" />
+            <p>O momento em que o tempo parou e só existíamos nós.</p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <button class="timeline-header">Nossa viagem inesquecível (em breve)</button>
+          <div class="timeline-body">
+            <img src="./assets/images/img4.jpg" alt="Nossa futura viagem" />
+            <p>Futuramente: nossa primeira viagem juntos para criar memórias únicas. ✈️💞</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Planos Futuros -->
+    <section class="section future" id="planos">
+      <h2 class="title cursive">Planos Futuros</h2>
+      <ul class="plans">
+        <li class="plan-item">
+          <span class="rocket">🚀</span>
+          <span>Explorar novos lugares e colecionar memórias.</span>
+        </li>
+        <li class="plan-item">
+          <span class="rocket">🌟</span>
+          <span>Construir sonhos e celebrar cada conquista.</span>
+        </li>
+        <li class="plan-item">
+          <span class="rocket">❤️</span>
+          <span>Cuidar um do outro todos os dias.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Mensagens do Coração -->
+    <section class="section heart-wall" id="mensagens">
+      <h2 class="title cursive">Mensagens do Coração</h2>
+      <form id="heartForm" class="heart-form">
+        <input type="text" id="heartInput" placeholder="Escreva uma mensagem" maxlength="120" required />
+        <button class="btn" type="submit">Enviar ❤</button>
+      </form>
+      <div class="heart-stage" id="heartStage" aria-live="polite"></div>
+    </section>
+
+    <!-- Cartas do Coração (movido para perto do jogo) -->
+    <section class="section love-letters" id="cartas">
+      <h2 class="title cursive">Cartas do Coração</h2>
+      <div class="love-cards" id="loveCards">
+        <div class="love-card" tabindex="0">
+          <div class="love-card-inner">
+            <div class="love-card-front">Quando penso em você...</div>
+            <div class="love-card-back">...o mundo desacelera e meu coração sorri mais alto. ❤</div>
+          </div>
+        </div>
+        <div class="love-card" tabindex="0">
+          <div class="love-card-inner">
+            <div class="love-card-front">Nosso futuro</div>
+            <div class="love-card-back">É o lugar onde quero morar. Um dia de cada vez, ao seu lado.</div>
+          </div>
+        </div>
+        <div class="love-card" tabindex="0">
+          <div class="love-card-inner">
+            <div class="love-card-front">Promessa</div>
+            <div class="love-card-back">Cuidar do seu sorriso como meu tesouro favorito, sempre.</div>
+          </div>
+        </div>
+        <div class="love-card" tabindex="0">
+          <div class="love-card-inner">
+            <div class="love-card-front">Nossa paz</div>
+            <div class="love-card-back">É caber no abraço um do outro, e saber: estamos em casa.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz do Casal (movido para perto do jogo) -->
+    <section class="section quiz" id="quiz-casal">
+      <h2 class="title cursive">Quiz do Casal</h2>
+      <div class="quiz-card" id="quizCard">
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-actions">
+          <button class="btn" id="quizNext">Próxima</button>
+        </div>
+        <div class="quiz-progress" id="quizProgress"></div>
+      </div>
+    </section>
+
+    <!-- Mini-jogo -->
+    <section class="section mini-game" id="jogo">
+      <h2 class="title cursive">Mini-jogo do Amor</h2>
+      <p>Encontre o coração certo para revelar uma mensagem secreta.</p>
+      <div class="game-board" id="gameBoard"></div>
+      <div class="game-output" id="gameOutput"></div>
+    </section>
+
+    <!-- Seção Secreta -->
+    <section class="section secret hidden" id="secreta">
+      <h2 class="title cursive">Segredo para Brenda</h2>
+      <p id="secretText">Brenda, se o universo é infinito, meu amor por você encontrou um jeito de ir além. Em cada silêncio eu te escuto, em cada amanhecer eu te escolho, e em cada batida do meu coração existe um sussurro: “fica comigo para sempre”. Você é a minha casa, meu destino e o sonho que eu acordo vivendo. Eu te amo hoje, amanhã e em todos os futuros. ❤</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="credits">Feito com ❤ para Brenda • <span id="year"></span></p>
+  </footer>
+
+  <!-- Sounds -->
+  <audio id="clickSound">
+    <source src="./assets/sounds/click.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- PIN Overlay -->
+  <div id="pinOverlay" class="pin-overlay hidden" aria-hidden="true" role="dialog" aria-label="Protegido por PIN">
+    <div class="pin-card">
+      <h3 style="margin:0 0 .5rem;">Porta do Nosso Segredo</h3>
+      <p style="margin:.25rem 0 1rem; opacity:.9;">Um código do coração te espera. Digite o PIN para entrar.</p>
+      <form id="pinForm" class="pin-form">
+        <input id="pinInput" type="password" inputmode="numeric" maxlength="6" placeholder="PIN" autocomplete="one-time-code" required />
+        <button class="btn" type="submit">Desbloquear</button>
+      </form>
+      <div id="pinMsg" class="pin-msg" aria-live="polite"></div>
+    </div>
+    <div class="modal-backdrop" id="pinBackdrop"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/app.js"></script>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" aria-label="Voltar ao topo" class="hidden" style="position:fixed; right:16px; bottom:16px; z-index:120;">
+    ↑ Topo
+  </button>
+</body>
+</html>
