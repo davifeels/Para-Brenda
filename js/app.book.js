@@ -284,7 +284,12 @@
     const open = () => {
       playClick();
       overlay.classList.remove('hidden');
-      // permite animar com classe 'active'
+      // Defensive fallback for first paint on GitHub Pages: ensure modal overlay is visible immediately
+      overlay.style.display = 'grid';
+      overlay.style.position = 'fixed';
+      overlay.style.inset = '0';
+      overlay.style.zIndex = '90';
+      // allow CSS transition class to kick in next frame
       requestAnimationFrame(() => overlay.classList.add('active'));
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -302,7 +307,11 @@
       // espera fim da transição p/ esconder
       const onEnd = () => {
         overlay.classList.add('hidden');
-        overlay.classList.remove('active');
+        // Clean defensive inline styles to return control to CSS
+        overlay.style.display = '';
+        overlay.style.position = '';
+        overlay.style.inset = '';
+        overlay.style.zIndex = '';
         overlay.removeEventListener('transitionend', onEnd);
       };
       overlay.addEventListener('transitionend', onEnd);
