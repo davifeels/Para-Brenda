@@ -1,5 +1,5 @@
 // Álbum Interativo para Brenda da Silva Lima
-// Todas as interações e animações principais estão aqui.
+// Versão com Livro Digital do Amor
 
 (() => {
   'use strict';
@@ -41,7 +41,7 @@
 
   // Surpresas possíveis
   const SURPRISES = [
-    'Você é meu sonho bom de todos os dias ',
+    'Você é meu sonho bom de todos os dias ❤',
     'Seu abraço é meu abrigo favorito',
     'Meu coração escolheu você e sorri por isso',
     'Seus olhos têm a calma do meu porto seguro',
@@ -52,7 +52,7 @@
   // ======= Quiz do casal =======
   const QUIZ = [
     { q: 'Quem mandou a primeira mensagem?', a: ['Davi', 'Brenda', 'Nós dois'], c: 0 },
-    { q: 'Quem disse "eu te amo" primeiro?', a: ['Davi', 'Brenda', 'Ao mesmo tempo'], c: 0 },
+    { q: 'Quem disse “eu te amo” primeiro?', a: ['Davi', 'Brenda', 'Ao mesmo tempo'], c: 0 },
     { q: 'Quem é mais carinhoso?', a: ['Davi', 'Brenda', 'Nós dois'], c: 2 },
     { q: 'Quem dorme mais?', a: ['Davi', 'Brenda', 'Empate'], c: 1 },
     { q: 'Quem ama mais?', a: ['Davi', 'Brenda', 'O amor é igual'], c: 2 },
@@ -64,6 +64,7 @@
     const optsEl = document.getElementById('quizOptions');
     const nextBtn = document.getElementById('quizNext');
     const prog = document.getElementById('quizProgress');
+    
     if (!card || !qEl || !optsEl || !nextBtn || !prog) return;
 
     let i = 0; let score = 0; let selected = -1;
@@ -88,10 +89,20 @@
       });
       nextBtn.disabled = selected === -1;
       prog.textContent = `Pergunta ${i+1} de ${QUIZ.length}`;
+      nextBtn.textContent = i === QUIZ.length - 1 ? 'Concluir' : 'Próxima';
+
+      // Efeito de fade-in suave no card do quiz
+      if (card) {
+        card.style.opacity = '0';
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.5s ease';
+          card.style.opacity = '1';
+        }, 50);
+      }
     };
 
     const finish = () => {
-      qEl.textContent = `Você acertou ${score}/${QUIZ.length} `;
+      qEl.textContent = `Você acertou ${score}/${QUIZ.length} ❤`;
       optsEl.innerHTML = '';
       nextBtn.disabled = true;
       popConfettiSlow(document.body, 200);
@@ -100,6 +111,12 @@
     nextBtn.addEventListener('click', () => {
       if (selected === -1) return;
       playClick();
+      
+      // Verificar se a resposta está correta
+      if (selected === QUIZ[i].c) {
+        score++;
+      }
+      
       if (i < QUIZ.length - 1) {
         i++;
         render();
@@ -109,6 +126,233 @@
     });
 
     render();
+  };
+
+  // ======= Livro Digital do Amor =======
+  const BOOK_PAGES = [
+    {
+      title: "Prólogo",
+      image: null,
+      text: `
+        <div class="page-title">Prólogo</div>
+        <p>Brenda, este livro é um abraço em palavras. Ele nasceu do meu coração, que te escolhe todos os dias.</p>
+        <p>Que cada linha te lembre: você é a pessoa mais especial do meu mundo.</p>
+        <p>Cada página foi feita com amor, cada foto escolhida com carinho, cada palavra escrita pensando em você.</p>
+      `
+    },
+    {
+      title: "Nosso Primeiro Momento",
+      image: "./assets/images/nossoprimeiromomento.jpg",
+      text: `
+        <div class="page-title">Nosso Primeiro Momento</div>
+        <p>Quando nossos olhares se encontraram, o mundo ficou mais bonito. Esta foto guarda o início de tudo que construímos juntos.</p>
+        <p>Cada sorriso seu neste dia já carregava a promessa de todos os momentos felizes que viveremos.</p>
+      `
+    },
+    {
+      title: "A Felicidade que Você Me Traz",
+      image: "./assets/images/livro1.jpg",
+      text: `
+        <div class="page-title">A Felicidade que Você Me Traz</div>
+        <p>Seu sorriso é meu nascer do sol. Sua risada é a música mais bonita que já escutei.</p>
+        <p>Nesta foto vejo toda a alegria que você trouxe para minha vida. Com você, até os dias cinzentos ficam coloridos.</p>
+      `
+    },
+    {
+      title: "Nosso Amor Verdadeiro",
+      image: "./assets/images/livro.jpg",
+      text: `
+        <div class="page-title">Nosso Amor Verdadeiro</div>
+        <p>Este momento captura a essência do nosso amor: puro, sincero e eterno.</p>
+        <p>Quando olho para esta foto, vejo não apenas um momento, mas toda uma vida de cumplicidade e carinho que queremos viver juntos.</p>
+      `
+    },
+    {
+      title: "Momentos Especiais",
+      image: "./assets/images/livro3.jpg",
+      text: `
+        <div class="page-title">Momentos Especiais</div>
+        <p>Cada segundo ao seu lado é um presente. Esta foto representa todos os momentos únicos que criamos juntos.</p>
+        <p>São nesses instantes que percebo como é bom ter você na minha vida, como é perfeito ser seu companheiro de jornada.</p>
+      `
+    },
+    {
+      title: "Nosso Futuro Juntos",
+      image: "./assets/images/livro4.jpg",
+      text: `
+        <div class="page-title">Nosso Futuro Juntos</div>
+        <p>Esta foto representa todos os sonhos que ainda vamos realizar, todas as aventuras que ainda vamos viver.</p>
+        <p>Com você, o futuro não é uma incerteza, é uma certeza linda de dias felizes, amor verdadeiro e companheirismo eterno.</p>
+      `
+    },
+    {
+      title: "Epílogo",
+      image: null,
+      text: `
+        <div class="page-title">Para Sempre é Hoje</div>
+        <p>Se eu pudesse resumir: eu te amo com paciência, verdade e cuidado.</p>
+        <p>Obrigado por existir, por ficar e por ser você. Obrigado por me deixar te amar todos os dias.</p>
+        <p>Este livro é meu coração em páginas, meu amor em palavras, minha promessa em cada linha:</p>
+        <p><strong>Eu te amo hoje, amanhã e em todos os futuros possíveis.</strong></p>
+        <p style="text-align: right; margin-top: 2rem; font-style: italic;">— Com todo meu amor, Davi ❤</p>
+      `
+    }
+  ];
+
+  const initLoveBook = () => {
+    const btnOpen = document.getElementById('openBook');
+    const overlay = document.getElementById('bookOverlay');
+    const btnClose = document.getElementById('bookClose');
+    const page = document.getElementById('bookPage');
+    const btnPrev = document.getElementById('bookPrev');
+    const btnNext = document.getElementById('bookNext');
+    const progress = document.getElementById('bookProgress');
+    
+    if (!btnOpen || !overlay || !page || !btnPrev || !btnNext || !progress) return;
+
+    let i = 0;
+    let dir = 1; // 1 = próxima, -1 = anterior
+    let isAnimating = false;
+    const OUT_DUR = 240;  // ms — pequena pausa antes de trocar
+    const IN_DUR = 650;   // ms — já usado no render
+     
+    const render = () => {
+      const currentPage = BOOK_PAGES[i];
+      let pageContent = currentPage.text;
+      
+      // Se a página tem imagem, adiciona ela
+      if (currentPage.image) {
+        const imageHtml = `<div class="book-photos"><img class="book-photo" src="${currentPage.image}" alt="${currentPage.title}" /></div>`;
+        // Insere a imagem após o título
+        pageContent = pageContent.replace('</div>', '</div>' + imageHtml);
+      }
+      
+      // Animação de saída leve (direção)
+      page.style.transition = 'none';
+      page.style.opacity = '0';
+      page.style.transform = `translateX(${dir * 16}px) scale(.992)`;
+      
+      // Troca conteúdo
+      page.innerHTML = pageContent;
+      progress.textContent = `Página ${i + 1} de ${BOOK_PAGES.length}`;
+      btnPrev.disabled = i === 0;
+      btnNext.textContent = i === BOOK_PAGES.length - 1 ? 'Concluir' : 'Próxima';
+      
+      // Entrada suave (mais lenta)
+      requestAnimationFrame(() => {
+        page.style.transition = 'opacity .65s ease-in-out, transform .65s ease-in-out';
+        page.style.opacity = '1';
+        page.style.transform = 'translateX(0) scale(1)';
+      });
+
+      // Anima a foto da página (crossfade/slide mais suave)
+      const img = page.querySelector('.book-photo');
+      if (img) {
+        img.style.opacity = '0';
+        img.style.transform = 'translateY(12px) scale(.985)';
+        requestAnimationFrame(() => {
+          img.style.transition = 'opacity .7s ease-in-out, transform .7s ease-in-out';
+          img.style.opacity = '1';
+          img.style.transform = 'translateY(0) scale(1)';
+        });
+      }
+    };
+
+    const changePage = (targetIndex, direction) => {
+      if (isAnimating) return;
+      isAnimating = true;
+      dir = direction;
+      // Animação de saída do conteúdo atual
+      page.style.transition = 'opacity .24s ease, transform .24s ease';
+      page.style.opacity = '0';
+      page.style.transform = `translateX(${dir * 18}px) scale(.988)`;
+      btnPrev.disabled = true;
+      btnNext.disabled = true;
+      // Após pequeno atraso, troca o conteúdo e anima entrada
+      setTimeout(() => {
+        i = targetIndex;
+        render();
+        // Reabilita após a animação de entrada terminar
+        setTimeout(() => {
+          btnPrev.disabled = i === 0 ? true : false;
+          btnNext.disabled = false;
+          isAnimating = false;
+        }, IN_DUR);
+      }, OUT_DUR);
+    };
+
+    const open = () => {
+      playClick();
+      overlay.classList.remove('hidden');
+      // permite animar com classe 'active'
+      requestAnimationFrame(() => overlay.classList.add('active'));
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      i = 0; 
+      dir = 1;
+      render();
+      // Efeito de corações ao abrir o livro
+      setTimeout(() => popHearts(document.body, 20), 300);
+    };
+    
+    const close = () => {
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      // espera fim da transição p/ esconder
+      const onEnd = () => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('active');
+        overlay.removeEventListener('transitionend', onEnd);
+      };
+      overlay.addEventListener('transitionend', onEnd);
+    };
+    
+    const next = () => {
+      if (i < BOOK_PAGES.length - 1) { 
+        playClick();
+        changePage(i + 1, 1);
+        popHearts(document.body, 8);
+      } else { 
+        playClick(); 
+        // Grande celebração ao concluir o livro
+        popConfettiSlow(document.body, 250);
+        popHearts(document.body, 40);
+        setTimeout(() => close(), 1200);
+      }
+    };
+    
+    const prev = () => { 
+      if (i > 0) { 
+        playClick();
+        changePage(i - 1, -1);
+        popHearts(document.body, 5);
+      } 
+    };
+
+    // Suporte a gesto de swipe no mobile
+    let touchStartX = 0;
+    page.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    page.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) next(); else prev();
+      }
+    }, { passive: true });
+
+    btnOpen.addEventListener('click', open);
+    // Só fechar quando clicar no X
+    btnClose && btnClose.addEventListener('click', () => { playClick(); close(); });
+    btnPrev.addEventListener('click', prev);
+    btnNext.addEventListener('click', next);
+
+    // Navegação por teclado
+    document.addEventListener('keydown', (e) => {
+      if (overlay.classList.contains('hidden')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
   };
 
   // ======= Utilitários =======
@@ -123,13 +367,10 @@
 
   // ======= Evitar zoom por gesto/double-tap (fallback) =======
   const preventMobileZoom = () => {
-    // Bloqueia gesto de pinça no iOS Safari
     document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
-    // Bloqueia double-tap zoom
     let lastTouchEnd = 0;
     document.addEventListener('touchend', (e) => {
       const now = Date.now();
-      // Evita cancelar interação em controles de UI
       const isControl = !!(e.target && (/** @type {Element} */(e.target)).closest && (/** @type {Element} */(e.target)).closest('button, a, input, textarea, select, label'));
       if (!isControl && now - lastTouchEnd <= 300) {
         e.preventDefault();
@@ -153,7 +394,7 @@
       c.style.height = h + 'px';
       c.style.background = `hsl(${Math.random()*360},85%,68%)`;
       c.style.transform = `rotate(${Math.random()*360}deg)`;
-      const dur = (isSmall ? 4.5 : 5) + Math.random()* (isSmall ? 2.5 : 3); // levemente mais curto no mobile
+      const dur = (isSmall ? 4.5 : 5) + Math.random()* (isSmall ? 2.5 : 3);
       c.style.animation = `confFallSlow ${dur}s linear forwards`;
       c.style.zIndex = '60';
       c.style.borderRadius = '2px';
@@ -185,7 +426,7 @@
       const x = centerX + Math.cos(angle) * r;
       const y = centerY + Math.sin(angle) * r;
       const s = document.createElement('span');
-      s.textContent = '';
+      s.textContent = '❤';
       s.style.position = 'fixed';
       s.style.left = `${x}px`;
       s.style.top = `${y}px`;
@@ -197,7 +438,6 @@
       s.style.pointerEvents = 'none';
       s.style.zIndex = '60';
       document.body.appendChild(s);
-      // Animação de surgimento e leve fuga
       requestAnimationFrame(() => {
         s.style.opacity = '1';
         s.style.transform = `translate(${(Math.random()-0.5)*28}px, ${(Math.random()-0.5)*28}px) scale(1.2)`;
@@ -231,7 +471,6 @@
       });
     });
 
-    // Ao carregar/recarregar: sempre começar no topo, limpando o hash
     if (location.hash) {
       history.replaceState(null, '', location.pathname);
     }
@@ -250,6 +489,7 @@
     overlay.classList.remove('hidden');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('pin-lock');
     msg.textContent = '';
     input.value = '';
     setTimeout(() => input.focus(), 50);
@@ -258,21 +498,19 @@
       overlay.classList.add('hidden');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      document.body.classList.remove('pin-lock');
       form.removeEventListener('submit', onSubmit);
     };
-    // Importante: não fechar ao clicar fora. O PIN só fecha quando for correto.
 
     const onSubmit = (e) => {
       e.preventDefault();
       const val = (input.value || '').trim();
       if (val === SECRET_PIN) {
         msg.textContent = 'Desbloqueado!';
-        // Confete com transição lenta ao acertar o PIN
         popConfettiSlow(document.body, 180);
         if (mode === 'surprise') {
           activateTotalSurprise();
         } else {
-          // Gate simples: apenas rolar para a capa
           const header = document.getElementById('capa');
           if (header) header.scrollIntoView({ behavior: 'smooth' });
         }
@@ -286,17 +524,14 @@
   };
 
   const activateTotalSurprise = () => {
-    // Tocar música
     const audio = /** @type {HTMLAudioElement} */ (document.getElementById('audioPlayer'));
     if (audio) {
       try { audio.play(); } catch {}
     }
-    // Confetes e corações
     popConfetti(document.body, 220);
     popHearts(document.body, 80);
-    // Mensagem e rolagem suave até a capa
     const out = document.getElementById('surpriseOutput');
-    if (out) out.textContent = 'Para você, Brenda: hoje e sempre. ';
+    if (out) out.textContent = 'Para você, Brenda: hoje e sempre. 💞';
     const header = document.getElementById('capa');
     if (header) header.scrollIntoView({ behavior: 'smooth' });
   };
@@ -333,7 +568,7 @@
       speedY: rand(0.15, 0.6),
       speedX: rand(-0.2, 0.2),
       alpha: rand(0.4, 0.9),
-      hue: rand(330, 360), // rosa/verm
+      hue: rand(330, 360),
     });
 
     const createStar = () => ({
@@ -343,7 +578,7 @@
       baseA: rand(0.4, 0.9),
       phase: rand(0, Math.PI * 2),
       speed: rand(0.003, 0.01),
-      hue: rand(300, 360), // levemente rosado
+      hue: rand(300, 360),
     });
 
     for (let i = 0; i < STAR_COUNT; i++) stars.push(createStar());
@@ -354,7 +589,6 @@
       ctx.translate(x, y);
       ctx.scale(s / 16, s / 16);
       ctx.beginPath();
-      // Coração simples com Bezier
       ctx.moveTo(0, 6);
       ctx.bezierCurveTo(0, -2, -12, -2, -12, 6);
       ctx.bezierCurveTo(-12, 12, -6, 16, 0, 20);
@@ -384,14 +618,11 @@
 
     const step = () => {
       ctx.clearRect(0, 0, W, H);
-      // Parallax lerp
       starParallax.x += (starParallax.tx - starParallax.x) * 0.06;
       starParallax.y += (starParallax.ty - starParallax.y) * 0.06;
-      // Fundo: estrelas
       if (STARS_ENABLED) {
         for (const s of stars) drawStar(s);
       }
-      // Frente: corações
       for (const h of hearts) {
         h.y -= h.speedY;
         h.x += h.speedX;
@@ -420,7 +651,7 @@
     if (!btn) return;
     const sync = () => {
       btn.setAttribute('aria-pressed', STARS_ENABLED ? 'true' : 'false');
-      btn.textContent = STARS_ENABLED ? 'Estrelas ON ' : 'Estrelas OFF ';
+      btn.textContent = STARS_ENABLED ? 'Estrelas ON ✨' : 'Estrelas OFF ✨';
     };
     btn.addEventListener('click', () => {
       playClick();
@@ -452,7 +683,6 @@
     const elMonths = $('#months');
     const elDays = $('#days');
     const elTotal = $('#totalDays');
-    // Se a seção de contador não existir, não inicializa
     if (!elYears || !elMonths || !elDays || !elTotal) return;
 
     const update = () => {
@@ -480,7 +710,7 @@
     };
 
     update();
-    setInterval(update, 60 * 1000); // atualiza a cada minuto
+    setInterval(update, 60 * 1000);
   };
 
   // ======= Typewriter =======
@@ -563,6 +793,26 @@
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'ArrowRight') next();
     });
+
+    const setImage = (el) => {
+      // Fade out atual (um pouco mais lento)
+      modalImg.style.transition = 'opacity .5s ease-in-out, transform .5s ease-in-out';
+      modalImg.style.opacity = '0';
+      modalImg.style.transform = 'scale(.995)';
+      const src = el.src;
+      const alt = el.alt || '';
+      const onLoad = () => {
+        modalImg.removeEventListener('load', onLoad);
+        requestAnimationFrame(() => {
+          modalImg.style.opacity = '1';
+          modalImg.style.transform = 'scale(1)';
+        });
+      };
+      modalImg.addEventListener('load', onLoad);
+      modalImg.src = src;
+      modalImg.alt = alt;
+      modalCaption.textContent = GALLERY_CAPTIONS[current] || '';
+    };
   };
 
   // ======= Surpresas (mensagens, confetes, corações) =======
@@ -606,27 +856,171 @@
   const popHearts = (root, count = 20) => {
     for (let i = 0; i < count; i++) {
       const s = document.createElement('span');
-      s.textContent = '';
+      s.textContent = '❤';
       s.style.position = 'fixed';
       s.style.left = Math.random() * 100 + 'vw';
       s.style.top = '100vh';
       s.style.fontSize = (Math.random()*20 + 14) + 'px';
+      s.style.animation = `rise ${3 + Math.random()*2}s linear forwards`;
+      s.style.pointerEvents = 'none';
+      s.style.zIndex = '60';
+      s.style.color = '#ff4f6d';
+      root.appendChild(s);
+      setTimeout(() => s.remove(), 6000);
     }
   };
 
-  setup();
-};
+  const popConfetti = (root, count = 120) => {
+    for (let i = 0; i < count; i++) {
+      const c = document.createElement('i');
+      c.style.position = 'fixed';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-20px';
+      c.style.width = '8px';
       c.style.height = '12px';
+      c.style.background = `hsl(${Math.random()*360},85%,65%)`;
+      c.style.transform = `rotate(${Math.random()*360}deg)`;
+      c.style.animation = `confFall ${3 + Math.random()*2}s linear forwards`;
+      c.style.zIndex = '60';
+      c.style.borderRadius = '2px';
+      root.appendChild(c);
+      setTimeout(() => c.remove(), 6000);
+    }
 
-// ======= Contador de relacionamento =======
-const initCounter = () => {
-  const elYears = $('#years');
-  const elMonths = $('#months');
-  const elDays = $('#days');
-  const elTotal = $('#totalDays');
-  // Se a seção de contador não existir, não inicializa
-  if (!elYears || !elMonths || !elDays || !elTotal) return;
+    const styleId = 'confetti-style';
+    if (!document.getElementById(styleId)) {
+      const st = document.createElement('style');
+      st.id = styleId;
+      st.textContent = `@keyframes confFall { to { transform: translateY(105vh) rotate(720deg); opacity: .9; } }`;
+      document.head.appendChild(st);
+    }
+  };
 
+  // ======= Música =======
+  const initMusic = () => {
+    const audio = /** @type {HTMLAudioElement} */ (document.getElementById('audioPlayer'));
+    const btn = document.getElementById('btnToggleMusic');
+    if (!audio || !btn) return;
+    btn.addEventListener('click', () => {
+      playClick();
+      if (audio.paused) audio.play(); else audio.pause();
+    });
+  };
+
+  // ======= Timeline =======
+  const initTimeline = () => {
+    const items = $$('#timeline .timeline-item');
+    const bodies = items.map(it => $('.timeline-body', it));
+    const closeAll = () => bodies.forEach(b => b && b.classList.remove('open'));
+
+    items.forEach(item => {
+      const header = $('.timeline-header', item);
+      const body = $('.timeline-body', item);
+
+      // Abre este e fecha os outros
+      header.addEventListener('click', () => {
+        playClick();
+        const willOpen = !body.classList.contains('open');
+        closeAll();
+        if (willOpen) {
+          body.classList.add('open');
+          setTimeout(() => body.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+        }
+      });
+
+      // Clicar em qualquer imagem dentro do corpo fecha o item
+      body.addEventListener('click', (e) => {
+        const img = e.target && /** @type {Element} */(e.target).closest('img');
+        if (img) {
+          playClick();
+          body.classList.remove('open');
+          e.stopPropagation();
+        }
+      });
+    });
+
+    // Delegação global de segurança (caso o markup mude)
+    document.addEventListener('click', (e) => {
+      const img = e.target && /** @type {Element} */(e.target).closest('#timeline .timeline-body img');
+      if (!img) return;
+      const body = /** @type {Element} */(img.closest('.timeline-body'));
+      if (body && body.classList.contains('open')) {
+        playClick();
+        body.classList.remove('open');
+      }
+    });
+  };
+
+  // ======= Heart Message Wall =======
+  const initHeartWall = () => {
+    const form = $('#heartForm');
+    const input = $('#heartInput');
+    const stage = $('#heartStage');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (!val) return;
+      playClick();
+      const note = document.createElement('div');
+      note.className = 'heart-note';
+      note.textContent = '❤ ' + val;
+      note.style.left = Math.random() * 70 + '%';
+      note.style.bottom = '0';
+      stage.appendChild(note);
+      input.value = '';
+      setTimeout(() => note.remove(), 6500);
+    });
+  };
+
+  // ======= Mini-game =======
+  const initGame = () => {
+    const board = $('#gameBoard');
+    const out = $('#gameOutput');
+
+    const setup = () => {
+      board.innerHTML = '';
+      out.textContent = '';
+      const total = 20;
+      const correct = Math.floor(Math.random() * total);
+      for (let i = 0; i < total; i++) {
+        const cell = document.createElement('button');
+        cell.className = 'game-heart';
+        cell.setAttribute('aria-label', 'Coração');
+        cell.textContent = '💖';
+        const onTap = () => {
+          playClick();
+          if (i === correct) {
+            out.textContent = 'Mensagem secreta: Você é meu para sempre, Brenda! ❤';
+            revealSecret();
+          } else {
+            out.textContent = 'Quase! Tente outro coração.';
+          }
+        };
+        cell.addEventListener('pointerup', onTap);
+        cell.addEventListener('click', onTap);
+        board.appendChild(cell);
+      }
+    };
+
+    setup();
+  };
+
+  // ======= Seção secreta =======
+  const revealSecret = () => {
+    const sec = $('#secreta');
+    sec.classList.remove('hidden');
+    sec.scrollIntoView({ behavior: 'smooth' });
+    popHearts(document.body, 30);
+  };
+
+  // ======= Inicialização =======
+  const init = () => {
+    setYear();
+    setStartDateLabel();
+    preventMobileZoom();
+    initParticles();
+    initCounter();
     initTypewriter();
     initGallery();
     initSurprises();
@@ -640,8 +1034,15 @@ const initCounter = () => {
     initStarsControls();
     initRevealOnScroll();
     initSmoothNav();
-    // Solicitar PIN sempre que entrar na aplicação
     openPinOverlay('gate');
+
+    // Garante PIN também ao voltar do cache do navegador (BFCache) ou reexibir a página
+    window.addEventListener('pageshow', () => {
+      const overlay = document.getElementById('pinOverlay');
+      const hidden = overlay && overlay.classList.contains('hidden');
+      // Se não estiver visível, exige PIN novamente
+      if (hidden) openPinOverlay('gate');
+    });
   };
 
   document.addEventListener('DOMContentLoaded', init);

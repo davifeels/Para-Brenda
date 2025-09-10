@@ -26,7 +26,7 @@
     })();
   </script>
 </head>
-<body>
+<body class="pin-lock">
   <!-- Floating Particles Canvas -->
   <canvas id="particles"></canvas>
 
@@ -64,11 +64,11 @@
       <h2 class="title cursive">Nossa Galeria</h2>
       <div class="thumbs" id="thumbs">
         <div class="thumb"><img src="./assets/images/img1.jpg" alt="Momentos 1" data-index="0"></div>
-        <div class="thumb"><img src="./assets/images/img2.jpg" alt="Momentos 2" data-index="1"></div>
-        <div class="thumb"><img src="./assets/images/img3.jpg" alt="Momentos 3" data-index="2"></div>
+        <div class="thumb"><img src="./assets/images/primeiroencontro.jpg" alt="Momentos 2" data-index="1"></div>
+        <div class="thumb"><img src="./assets/images/nossoprimeiromomento.jpg" alt="Momentos 3" data-index="2"></div>
         <div class="thumb"><img src="./assets/images/img4.jpg" alt="Momentos 4" data-index="3"></div>
-        <div class="thumb"><img src="./assets/images/img5.jpg" alt="Momentos 5" data-index="4"></div>
-        <div class="thumb"><img src="./assets/images/img6.jpg" alt="Momentos 6" data-index="5"></div>
+        <div class="thumb"><img src="./assets/images/img6.jpg" alt="Momentos 5" data-index="4"></div>
+        <div class="thumb"><img src="./assets/images/img2.jpg" alt="Momentos 6" data-index="5"></div>
       </div>
     </section>
 
@@ -112,14 +112,14 @@
         <li class="timeline-item">
           <button class="timeline-header">Primeiro encontro</button>
           <div class="timeline-body">
-            <img src="./assets/images/img2.jpg" alt="Primeiro encontro" />
+            <img src="./assets/images/primeiroencontro.jpg" alt="Primeiro encontro" />
             <p>O dia em que nossos olhares se encontraram e o mundo ficou mais bonito.</p>
           </div>
         </li>
         <li class="timeline-item">
           <button class="timeline-header">Primeiro beijo</button>
           <div class="timeline-body">
-            <img src="./assets/images/img3.jpg" alt="Primeiro beijo" />
+            <img src="./assets/images/nossoprimeiromomento.jpg" alt="Primeiro beijo" />
             <p>O momento em que o tempo parou e só existíamos nós.</p>
           </div>
         </li>
@@ -219,6 +219,36 @@
       <h2 class="title cursive">Segredo para Brenda</h2>
       <p id="secretText">Brenda, se o universo é infinito, meu amor por você encontrou um jeito de ir além. Em cada silêncio eu te escuto, em cada amanhecer eu te escolho, e em cada batida do meu coração existe um sussurro: “fica comigo para sempre”. Você é a minha casa, meu destino e o sonho que eu acordo vivendo. Eu te amo hoje, amanhã e em todos os futuros. ❤</p>
     </section>
+
+    <!-- Livro Digital do Amor -->
+    <section class="section love-book" id="livro">
+      <h2 class="title cursive">Livro Digital do Amor</h2>
+      <div class="book-card">
+        <div class="book-emoji" aria-hidden="true">📜</div>
+        <div class="book-header">
+          <div class="book-title">Nossa História de Amor</div>
+          <div class="book-sub">Por Davi, para Brenda</div>
+        </div>
+        <button class="btn" id="openBook">Abrir Livro</button>
+      </div>
+    </section>
+
+    <!-- Overlay / Modal do Livro -->
+    <div id="bookOverlay" class="book-overlay hidden" aria-hidden="true" role="dialog" aria-label="Livro Digital do Amor">
+      <div class="book-modal">
+        <button class="book-close" id="bookClose" aria-label="Fechar">×</button>
+        <div class="book-container">
+          <div class="book-page" id="bookPage"></div>
+        </div>
+        <div class="book-actions">
+          <button class="btn" id="bookPrev">Anterior</button>
+          <div class="book-progress" id="bookProgress"></div>
+          <button class="btn" id="bookNext">Próxima</button>
+        </div>
+      </div>
+      <div class="modal-backdrop" id="bookBackdrop"></div>
+    </div>
+
   </main>
 
   <footer class="footer">
@@ -231,7 +261,7 @@
   </audio>
 
   <!-- PIN Overlay -->
-  <div id="pinOverlay" class="pin-overlay hidden" aria-hidden="true" role="dialog" aria-label="Protegido por PIN">
+  <div id="pinOverlay" class="pin-overlay" aria-hidden="false" role="dialog" aria-label="Protegido por PIN">
     <div class="pin-card">
       <h3 style="margin:0 0 .5rem;">Porta do Nosso Segredo</h3>
       <p style="margin:.25rem 0 1rem; opacity:.9;">Um código do coração te espera. Digite o PIN para entrar.</p>
@@ -245,7 +275,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="./js/app.js?v=20250909"></script>
+   <script src="./js/app.book.js?v=20250909"></script>
 
   <!-- Back to Top Button -->
   <button id="backToTop" aria-label="Voltar ao topo" class="hidden" style="position:fixed; right:16px; bottom:16px; z-index:120;">
